@@ -10,30 +10,40 @@ const WatchForm = () => {
 
   const calculateRetailPrice = (price) => {
     const priceNum = parseFloat(price);
-    let retailPrice;
 
-    if (priceNum >= 10000 && priceNum <= 40000) {
-      retailPrice = priceNum * 1.3; // 30%
-    } else if (priceNum > 40000 && priceNum <= 50000) {
-      retailPrice = priceNum * 1.29; // 29%
-    } else if (priceNum > 50000 && priceNum <= 100000) {
-      retailPrice = priceNum * 1.22; // 22%
-    } else if (priceNum > 100000 && priceNum <= 200000) {
-      retailPrice = priceNum * 1.18; // 18%
-    } else if (priceNum > 200000 && priceNum <= 300000) {
-      retailPrice = priceNum * 1.15; // 15%
-    } else if (priceNum > 300000 && priceNum <= 400000) {
-      retailPrice = priceNum * 1.12; // 12%
-    } else if (priceNum > 400000 && priceNum <= 500000) {
-      retailPrice = priceNum * 1.1; // 10%
-    } else if (priceNum > 500000) {
-      retailPrice = priceNum * 1.08; // 8%
+    if (priceNum < 40000) {
+      return Math.ceil(priceNum * 1.35 / 500) * 500; // 35% profit margin for below ₦39,999
+    } else if (priceNum >= 40000 && priceNum < 50000) {
+      // Calculate the percentage profit dynamically within the range ₦40,000 - ₦49,999
+      return Math.ceil(calculatePercentageProfit(priceNum, 30, 34) / 500) * 500;
+    } else if (priceNum >= 50000 && priceNum < 100000) {
+      // Calculate the percentage profit dynamically within the range ₦50,000 - ₦99,999
+      return Math.ceil(calculatePercentageProfit(priceNum, 25, 29) / 500) * 500;
+    } else if (priceNum >= 100000 && priceNum < 200000) {
+      // Calculate the percentage profit dynamically within the range ₦100,000 - ₦199,999
+      return Math.ceil(calculatePercentageProfit(priceNum, 20, 24) / 500) * 500;
+    } else if (priceNum >= 200000 && priceNum < 300000) {
+      // Calculate the percentage profit dynamically within the range ₦200,000 - ₦299,999
+      return Math.ceil(calculatePercentageProfit(priceNum, 15, 19) / 500) * 500;
+    } else if (priceNum >= 300000 && priceNum < 400000) {
+      // Calculate the percentage profit dynamically within the range ₦300,000 - ₦399,999
+      return Math.ceil(calculatePercentageProfit(priceNum, 10, 14) / 500) * 500;
+    } else if (priceNum >= 400000 && priceNum < 500000) {
+      return Math.ceil(priceNum * 1.09 / 500) * 500; // 9% profit margin for ₦400,000 - ₦499,999
+    } else if (priceNum >= 500000) {
+      return Math.ceil(priceNum * 1.08 / 500) * 500; // 8% profit margin for above ₦500,000
     } else {
-      retailPrice = priceNum;
+      return Math.ceil(priceNum / 500) * 500; // default return if priceNum is somehow negative or zero
     }
+  };
 
-    // Round up to the nearest 500 or 1000
-    return Math.ceil(retailPrice / 500) * 500;
+  const calculatePercentageProfit = (price, minPercent, maxPercent) => {
+    // Calculate the percentage profit dynamically within the specified range
+    let range = maxPercent - minPercent;
+    let percentIncrement = range / 5000; // Since each range is divided into 5000 increments
+
+    let percentageProfit = minPercent + Math.floor((price - 40000) / 1000) * percentIncrement;
+    return price * (1 + percentageProfit / 100);
   };
 
   const handleSubmit = (e) => {
@@ -85,3 +95,4 @@ const WatchForm = () => {
 };
 
 export default WatchForm;
+
