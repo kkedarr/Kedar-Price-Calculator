@@ -1,0 +1,40 @@
+.listBox {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    background-color: #7e7e7e;
+    color: white;
+    cursor: pointer;
+    margin-top: 15px;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .listBox:hover {
+    background-color: #757474;
+  }
+
+  .actionButtons {
+    display: flex;
+    align-items: center;
+  }
+
+  .copyButton {
+    color: #0063a5;
+  }
+
+  .copyButton:hover {
+    color: #60c0ff;
+  }
+
+
+  .deleteButton {
+    color: #e40707;
+  }
+
+  .deleteButton:hover {
+    color: #ff4f4f;
+  }

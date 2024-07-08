@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { WatchContext } from '../context/WatchContext';
+import { TextField, Checkbox, FormControlLabel, Button , Box} from '@mui/material';
 
 const WatchForm = () => {
   const [brand, setBrand] = useState('');
@@ -57,40 +58,36 @@ const WatchForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
+    <Box component="form" onSubmit={handleSubmit}>
+      <TextField
         type="text"
         placeholder="Brand"
         value={brand}
         onChange={(e) => setBrand(e.target.value)}
         required
+        fullWidth
+        margin="normal"
       />
-      <input
+      <TextField
         type="number"
         placeholder="Wholesale Price"
         value={wholesalePrice}
         onChange={(e) => setWholesalePrice(e.target.value)}
         required
+        fullWidth
+        margin="normal"
       />
-      <label>
-        <input
-          type="checkbox"
-          checked={chronograph}
-          onChange={(e) => setChronograph(e.target.checked)}
-        />
-        Chronograph
-      </label>
-      <label>
-        <input
-          type="checkbox"
-          checked={automaticEngine}
-          onChange={(e) => setAutomaticEngine(e.target.checked)}
-        />
-        Automatic Engine
-      </label>
-      <button type="button" onClick={() => alert(`Retail Price: ₦${calculateRetailPrice(wholesalePrice).toLocaleString()}`)}>Calculate</button>
-      <button type="submit">Add to List</button>
-    </form>
+      <FormControlLabel
+        control={<Checkbox checked={chronograph} onChange={(e) => setChronograph(e.target.checked)} 
+      />} label="Chronograph"
+      />
+      <FormControlLabel
+        control={<Checkbox checked={automaticEngine} onChange={(e) => setAutomaticEngine(e.target.checked)} 
+      />} label="Automatic Engine"
+      />
+      <Button variant="contained" color='primary' onClick={() => alert(`Retail Price: ₦${calculateRetailPrice(wholesalePrice).toLocaleString()}`)}>Calculate</Button>
+      <Button variant='contained' color='secondary' type='submit'>Add to List</Button>
+    </Box>
   );
 };
 

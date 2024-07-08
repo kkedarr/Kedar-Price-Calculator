@@ -4,17 +4,18 @@ import { store } from "./store";
 import { WatchProvider } from "./context/WatchContext";
 import WatchForm from "./components/WatchForm";
 import WatchList from "./components/WatchList";
+import { Container, Typography } from "@mui/material"
 import './App.css';
 
 function App() {
   return (
     <Provider store={store}>
       <WatchProvider>
-        <div className="App">
-          <h1>Price Calculator</h1>
+        <Container maxWidth="sm">
+          <Typography variant="h3" component="h1" gutterBottom>Price Calculator</Typography>
           <WatchForm />
           <WatchList />
-        </div>
+        </Container>
       </WatchProvider>
     </Provider>
   );

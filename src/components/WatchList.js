@@ -1,47 +1,76 @@
 import React, { useContext } from 'react';
 import { WatchContext } from '../context/WatchContext';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+import CopyIcon from '@mui/icons-material/ContentCopy';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import styles from "../App.module.css";
+
 
 const WatchList = () => {
   const { watches, deleteWatch } = useContext(WatchContext);
 
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text);
-    alert("Details copied to clipboard!");
+    alert('Details copied to clipboard!');
   };
 
   return (
-    <div>
-      <h2>Priced Items</h2>
-      <ul>
+    <Box>
+      <Typography variant="h6">Priced Items</Typography>
+      <List>
         {watches.map((watch, index) => (
-          <li key={index}>
-            <div>Boxed 📦</div>
-            {watch.chronograph && <div>Chronograph 🧭</div>}
-            {watch.automaticEngine && <div>Automatic Engine ⚙️</div>}
-            <div>Price: ₦{watch.retailPrice.toLocaleString()}💰</div>
-            <div>Nationwide delivery(🇳🇬)</div>
-            <button
-              className="copy-button"
-              onClick={() =>
-                copyToClipboard(
-                  `Boxed 📦${watch.chronograph ? '\nChronograph 🧭' : ''}${
-                    watch.automaticEngine ? '\nAutomatic Engine ⚙️' : ''
-                  }\nPrice: ₦${watch.retailPrice.toLocaleString()}💰\nNationwide delivery(🇳🇬)`
-                )
+          <ListItem className={styles.listBox} key={index} secondaryAction={
+            <Box classname={styles.actionButtons}>
+              <IconButton
+                className={styles.copyButton}
+                edge="end"
+                aria-label="copy"
+                onClick={() =>
+                  copyToClipboard(
+                    `Boxed 📦${watch.chronograph ? '\nChronograph 🧭' : ''}${
+                      watch.automaticEngine ? '\nAutomatic Engine ⚙️' : ''
+                    }\nPrice: ₦${watch.retailPrice.toLocaleString()}💰\nNationwide delivery(🇳🇬)`
+                  )
+                }
+              >
+                <CopyIcon />
+              </IconButton>
+              <IconButton
+                className={styles.deleteButton}
+                edge="end"
+                aria-label="delete"
+                onClick={() => deleteWatch(index)}
+              >
+                <DeleteIcon />
+              </IconButton>
+            </Box>
+          }>
+            <ListItemText
+              primary={
+                <Typography variant="body1" component="div"> 
+                  <Box fontWeight="fontWeightBold">{watch.brand}</Box> 
+                </Typography>
               }
-            >
-              Copy
-            </button>
-            <button
-              className="delete-button"
-              onClick={() => deleteWatch(index)}
-            >
-              Delete
-            </button>
-          </li>
+              secondary={
+                <Typography variant="body2" component="div"> 
+                  <Box whiteSpace="pre-line"> 
+                    {`Price: ₦${watch.retailPrice.toLocaleString()}💰\n`}
+                    {`${watch.chronograph ? 'Chronograph 🧭\n' : ''}${watch.automaticEngine ? 'Automatic Engine ⚙️\n' : ''}\n`}
+
+                    {'Nationwide delivery(🇳🇬)'}
+                  </Box>
+                </Typography>
+              }
+            />
+          </ListItem>
         ))}
-      </ul>
-    </div>
+      </List>
+    </Box>
   );
 };
 
